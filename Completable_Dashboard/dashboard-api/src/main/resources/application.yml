@@ -1,0 +1,65 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: dashboard-api
+
+  datasource:
+    url: jdbc:h2:mem:dashboarddb;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 2000ms
+      # Comment out if Redis not available locally – app falls back gracefully
+
+  cache:
+    type: redis
+    redis:
+      time-to-live: 60000   # 60 seconds default TTL
+
+dashboard:
+  thread-pool:
+    core-size: 10
+    max-size: 20
+    queue-capacity: 50
+    thread-name-prefix: dashboard-widget-
+  widget:
+    timeout-seconds: 3    # per-widget CompletableFuture timeout
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    com.dashboard: DEBUG
