@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: aggregator-api
+
+server:
+  port: 8080
+
+# External Microservices Configuration
+microservices:
+  user-profile:
+    url: http://localhost:8081/api/users
+    timeout: 5000
+  orders:
+    url: http://localhost:8082/api/orders
+    timeout: 5000
+  recommendations:
+    url: http://localhost:8083/api/recommendations
+    timeout: 5000
+  rewards:
+    url: http://localhost:8084/api/rewards
+    timeout: 5000
+
+# WebClient Configuration
+webclient:
+  connection-timeout: 5000
+  read-timeout: 5000
+  max-connections: 100
+
+# Thread Pool Configuration
+async:
+  core-pool-size: 10
+  max-pool-size: 50
+  queue-capacity: 100
+  thread-name-prefix: aggregator-async-
+
+logging:
+  level:
+    com.epam.practice.aggregator: DEBUG
+    org.springframework.web: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
